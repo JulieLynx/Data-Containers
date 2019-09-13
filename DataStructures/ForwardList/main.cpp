@@ -11,16 +11,16 @@ using std::endl;
 //#define CONSTRUCTORS_CHECK
 
 
-
+template<typename T>
 class ForwardList
 {
 	class Element
 	{
-		int Data;		//Значение элемента
+		T Data;		//Значение элемента
 		Element* pNext;	//Адрес следующего элемента
 		static int count;
 	public:
-		Element(int Data, Element* pNext = nullptr)
+		Element(T Data, Element* pNext = nullptr)
 		{
 			this->Data = Data;
 			this->pNext = pNext;
@@ -120,10 +120,10 @@ public:
 		this->size = 0;*/
 		while (size--)push_front(0);
 	}
-	ForwardList(initializer_list<int> il) :ForwardList()
+	ForwardList(initializer_list<T> il) :ForwardList()
 	{
 		cout << typeid(il.begin()).name() << endl;
-		for (int const* it = il.begin(); it != il.end(); it++)
+		for (T const* it = il.begin(); it != il.end(); it++)
 			push_back(*it);
 	}
 	ForwardList(const ForwardList& other) :ForwardList()
@@ -156,7 +156,7 @@ public:
 	}
 
 	//			Добавление элементов в список:
-	void push_front(int Data)
+	void push_front(T Data)
 	{
 		//Data - добавляемое значение.
 		//1) Создаем элемент, в который можно положить добавляемое значение:
@@ -166,7 +166,7 @@ public:
 		Head = new Element(Data, Head);
 		size++;
 	}
-	void push_back(int Data)
+	void push_back(T Data)
 	{
 		if (Head == nullptr)
 		{
@@ -262,7 +262,8 @@ public:
 	}
 };
 
-int ForwardList::Element::count = 0;
+template<typename T>
+int ForwardList<T>::Element::count = 0;
 
 void main()
 {
@@ -338,7 +339,7 @@ void main()
 	for (char i : str)
 		cout << i << tab;
 	cout << endl;
-	ForwardList fl = { 666, 5, 8, 13, 21 };
+	ForwardList<int> fl = { 666, 5, 8, 13, 21 };
 	system("COLOR 0A");
 	for (int i : fl)
 	{
@@ -346,4 +347,7 @@ void main()
 	}
 	cout << endl;
 	//cout << sizeof(ForwardList::Element) << endl;
+
+	ForwardList<double> lst_dbl = { 2.5,1.2,1.3,1.4, };
+	lst_dbl.print();
 }
