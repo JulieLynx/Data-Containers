@@ -20,27 +20,10 @@ class ForwardList
 		Element* pNext;	//јдрес следующего элемента
 		static int count;
 	public:
-		Element(T Data, Element* pNext = nullptr)
-		{
-			this->Data = Data;
-			this->pNext = pNext;
-			count++;
-			cout << "EConstructor:\t" << this << endl;
-		}
-		~Element()
-		{
-			count--;
-			cout << "EDestructor:\t" << this << endl;
-		}
-		operator const int&()const
-		{
-			return this->Data;
-		}
-		operator int&()
-		{
-			return this->Data;
-		}
-		friend class ForwardList;
+		Element(T Data, Element* pNext = nullptr);
+		~Element();
+
+		friend class ForwardList<T>;
 	};
 	Element* Head;	//”казатель на начало списка
 	unsigned int size;
@@ -49,14 +32,8 @@ public:
 	{
 		Element* Temp;
 	public:
-		Iterator(Element* Temp = nullptr):Temp(Temp)
-		{
-			cout << "ItConstructor:\t" << this << endl;
-		}
-		~Iterator()
-		{
-			cout << "ItDestructor:\t" << this << endl;
-		}
+		Iterator(Element* Temp = nullptr);
+		~Iterator();
 		Iterator& operator++()
 		{
 			Temp = Temp->pNext;
@@ -68,22 +45,11 @@ public:
 			Temp = Temp->pNext;
 			return old;
 		}
-		const int& operator*()const
-		{
-			return Temp->Data;
-		}
-		int& operator*()
-		{
-			return Temp->Data;
-		}
-		bool operator==(const Iterator& other)
-		{
-			return this->Temp == other.Temp;
-		}
-		bool operator!=(const Iterator& other)
-		{
-			return this->Temp != other.Temp;
-		}
+
+		const T& operator*()const;
+		T& operator*();
+		T operator==(const Iterator& other);
+		T operator!=(const Iterator& other);
 	};
 	const int get_size()const
 	{
@@ -265,6 +231,67 @@ public:
 template<typename T>
 int ForwardList<T>::Element::count = 0;
 
+template<typename T>
+ForwardList<T>::Element::Element(T Data, Element* pNext)
+{
+	this->Data = Data;
+	this->pNext = pNext;
+	count++;
+	cout << "EConstructor:\t" << this << endl;
+}
+template<typename T>
+ForwardList<T>::Element::~Element()
+{
+	count--;
+	cout << "EDestructor:\t" << this << endl;
+}
+
+template<typename T>
+ForwardList<T>::Iterator::Iterator(Element* Temp = nullptr) :Temp(Temp)
+{
+	cout << "ItConstructor:\t" << this << endl;
+}
+template<typename T>
+ForwardList<T>::Iterator::~Iterator()
+{
+	cout << "ItDestructor:\t" << this << endl;
+}
+////////////////////////////////////////////////////////////////////////
+//template<typename T>
+//ForwardList<T>::Iterator& ForwardList<T>::Iterator::operator++()
+//{
+//	Temp = Temp->pNext;
+//	return *this;
+//}
+//template<typename T>
+//ForwardList<T>::Iterator ForwardList<T>::Iterator::operator++(int)
+//{
+//	Iterator old = *this;
+//	Temp = Temp->pNext;
+//	return old;
+//}
+////////////////////////////////////////////////////////////////////////
+template<typename T>
+const T& ForwardList<T>::Iterator::operator*()const
+{
+	return Temp->Data;
+}
+template<typename T>
+T& ForwardList<T>::Iterator::operator*()
+{
+	return Temp->Data;
+}
+template<typename T>
+T ForwardList<T>::Iterator::operator==(const Iterator& other)
+{
+	return this->Temp == other.Temp;
+}
+template<typename T>
+T ForwardList<T>::Iterator::operator!=(const Iterator& other)
+{
+	return this->Temp != other.Temp;
+}
+
 void main()
 {
 	setlocale(LC_ALL, "");
@@ -311,7 +338,7 @@ void main()
 	for (int i = 0; i < 10; i++)
 	{
 		cout << fl[i] << tab;
-	}
+}
 	cout << endl;
 #endif // INDEX_OPERATOR_CHECK
 
