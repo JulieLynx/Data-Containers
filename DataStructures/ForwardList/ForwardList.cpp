@@ -238,3 +238,15 @@ void ForwardList::print()
 		cout << Temp << tab << Temp->Data << tab << Temp->pNext << endl;
 	cout << "Количество элементво списка: " << size << endl;
 }
+
+
+ForwardList operator+(const ForwardList& left, const ForwardList& right)
+{
+	ForwardList op = left;
+	for (ForwardList::Iterator it = right.begin(); it != right.end(); it++)
+		op.push_back(*it);
+	return op;
+}
+
+
+
